@@ -1,15 +1,15 @@
-// Ugly but nearly all decisions were made to reduce output size.
-function Whisp(name, level, runners, template) {
+
+function Whisp(name, level, runners, template, onRunEnd) {
   var self = this;
   var noop = function() {}
 
   self.name = name || "";
   self.level = level || "debug";
+  self.onRunEnd = onRunEnd;
 
   self._runners = runners || [];
   self._template = template || null;
   self._levels = ['trace', 'debug', 'info', 'warn', 'error', 'silent'];
-  self._replaceMethods();
 
   self.is = function(level) {
     if (self._levels.indexOf(level) >= 0) {
@@ -21,7 +21,7 @@ function Whisp(name, level, runners, template) {
   self._replaceMethods = function() {
     for (var i = 0; i < self._levels.length; i++) {
       var level = self._levels[i]
-      this[level] = self._isLevelValid(level) ?  self._make(level) : noop;
+      self[level] = self._isLevelValid(level) ?  self._make(level) : noop;
     }
 
     self.log = self.debug;
@@ -30,24 +30,35 @@ function Whisp(name, level, runners, template) {
   self._make = function(level) {
     if (console === undefined || level === "silent") { return noop; }
 
-    var fn = console[(level === "debug" ? "log" : level)].bind(console);
+    var method = console[(level === "debug" ? "log" : level)]
+    var fn = method && method.bind(console);
 
-    return (typeof fn === undefined) ? noop : function(...args) {
-      self._run(self.name, level, args)
-      var template = self._template ? self._template(self.name, level, args) : args;
-      fn(template);
+    return !fn ? noop : function() {
+      /**
+       * All this mumbo jumbo is to avoid using the spread operator so people can support
+       * IE without resorting to Babel. Only a ~30b difference using this instead of spread anyway.
+       */
+      var args = Array.prototype.slice.call(arguments);
+      args.unshift(level)
+      args.unshift(self.name)
+      self._template ? fn(self._template.apply(self, args)) : fn.apply(console, arguments);
+      self._run.apply(self, args)
     };
   }
 
-  self._run = function(name, level, args) {
+  self._run = function() {
+    var promises = [];
     for (var i = 0; i < self._runners.length; i++) {
-      self._runners[i](name, level, args)
+      promises.push(self._runners[i].apply(self, arguments))
     }
+    Promise.all(promises).then(this.onRunEnd)
   }
 
   self._isLevelValid = function(level) {
     return self._levels.indexOf(level) >= self._levels.indexOf(self.level);
   }
+
+  self._replaceMethods();
 }
 
 export default Whisp;

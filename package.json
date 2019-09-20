@@ -1,7 +1,7 @@
 {
   "name": "whisp",
   "version": "0.0.0-semantically-released",
-  "description": "Micro (360b) powerful and customizable logger for the browser and node that provides log level mapping to the console.",
+  "description": "Micro (440b) powerful and customizable logger for the browser and node that provides log level mapping to the console.",
   "main": "dist/whisp.min.js.js",
   "module": "dist/whisp.cjs.js",
   "jsnext:main": "dist/whisp.esm.js",
@@ -33,6 +33,8 @@
     "logger",
     "ssr",
     "log",
+    "warn",
+    "error",
     "logging",
     "cli",
     "browser",

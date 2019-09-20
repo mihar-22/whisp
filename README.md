@@ -12,13 +12,12 @@
 Micro, powerful and customizable logger for the browser and node that provides log level mapping to the console.
 </p>
 
-- Lightweight. **360b minified and gzipped | 620b minified!**
+- Lightweight. **440b minified and gzipped | 800b minified!**
 - No functions wrapping console. **All stack traces are pure!**
 - No unnecessary bloat or fancy code. **Only the core functionality!**.
 - Use **runners** to asynchronously process logs as they come through.
 - Import it or use it directly in the browser. **All file formats are available.**
-- **Supports** ES5 compliant browsers, IE9+ and Node 0.6+.
-- Use **templates** to make it look how you want in the console.
+- Use **templates** to make your output look how you want.
 - **SSR** friendly.
 - **Types** included.
 
@@ -30,8 +29,9 @@ Micro, powerful and customizable logger for the browser and node that provides l
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
 
-- [Install](#install)
-- [Overview](#overview)
+- [Support](#support)
+- [Installation](#installation)
+- [Introduction](#introduction)
 - [Runners](#runners)
   - [Example](#example)
 - [Templates](#templates)
@@ -42,23 +42,27 @@ Micro, powerful and customizable logger for the browser and node that provides l
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
-## Install 
+## Support 
 
-***Supports any ES5 compliant browser, IE9+ and Node 0.6+.***
+***Supports all [Promises](https://caniuse.com/#feat=promises) compliant Browsers and [Node][node] 0.12+.***
 
-If you'd like to support older versions of IE or whatever, you'll need a polyfill for `Function.prototype.bind` and `Array.prototype.indexOf`
+If you want to support IE9+ then you'll require a [Promise polyfill](https://www.npmjs.com/package/promise-polyfill).
+
+If you'd like to support older versions of IE (<= 8) or something else ancient, you'll need a polyfill for `Function.prototype.bind` and `Array.prototype.indexOf`
+
+## Installation
 
 `npm install whisp --save-dev` or `yarn add whisp -D`
 
 All formats (umd, cjs and es) and minified versions are available in the dist folder inside the package.
 
-## Overview
+## Introduction 
 
 ```js
 import Whisp from 'whisp'
 
-// name, level (optional - defaults to "debug"), runners (optional) template (optional)
-const whisp = new Whisp('my-application')
+// name, level (optional - defaults to "debug"), runners (optional) template (optional), onRunEnd (optional)
+const whisp = new Whisp('my-app')
 
 // Log away (info, debug, trace, warn, error or trace)
 // `log` is available as an alias to debug
@@ -72,14 +76,32 @@ whisp.is('info')
 
 ## Runners
 
-Array of callbacks passed into the constructor: `(name, level, messages) => void`
+Callback: `(name, level, ...args) => Promise`
 
-Runners are simple asynchronous callbacks that you can use to do anything, for example writing to a file or sending logs to a server.
+Runners are simple asynchronous callbacks that return a promise. They are passed as an array of callbacks into the constructor. 
+You can use them to do anything, for example writing to a file or sending logs to a server.
 
 ### Example
 
-```
-Example here.
+```js
+import Whisp from 'whisp'
+
+// The `args` argument passed in is an Array of all the arguments you passed into the log call.
+// For example if you call `whisp.debug('message1', 'message2')` then args will be `['message1', 'message2']`
+const writeToFile = (name, level, ...args) => {
+    // Write to file with `fs` and return promise.
+}
+
+const pushToServer = (name, level, ...args) => {
+    // Push logs to the server with axios and return promise.
+}
+
+var whisp = new Whisp('my-app', 'debug', [writeToFile, pushToServer])
+
+// You can use `onRunEnd` to be notified of when all the runners promises have resolved or of any rejections.
+// The `results` argument passed in is an array of all the results from each runner call.
+// This can also be setup through the Whisp `constructor`.
+whisp.onRunEnd = (results) 
 ```
 
 ## Templates
