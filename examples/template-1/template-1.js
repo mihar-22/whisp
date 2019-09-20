@@ -5,7 +5,6 @@
 
 const Whisp = require('../../dist/whisp.cjs')
 
-
 const COLOR_BOLD = [1, 22];
 const COLOR_BLUE = [34, 39];
 const COLOR_CYAN = [36, 39];

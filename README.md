@@ -91,36 +91,30 @@ Templates are simple callbacks that modify the style of the logs.
 
 ### Example 1
 
-See [source code](https://github.com/mihar-22/whisp/blob/master/examples/template-1/template-1.js)
+See [source code](https://github.com/mihar-22/whisp/blob/master/examples/template-1/template-1.js).
 
-<p align="center">
-  <img width="auto" 
-       height="auto"
-       alt="whisp template 1 preview" 
-       src="https://raw.githubusercontent.com/mihar-22/whisp/master/examples/template-1/preview.png">       
-</p>
+<img width="auto" 
+   height="auto"
+   alt="whisp template 1 preview" 
+   src="https://raw.githubusercontent.com/mihar-22/whisp/master/examples/template-1/preview.png">       
 
 ### Example 2
 
-See [source code](https://github.com/mihar-22/whisp/blob/master/examples/template-2/template-2.js)
+See [source code](https://github.com/mihar-22/whisp/blob/master/examples/template-2/template-2.js).
 
-<p align="center">
-  <img width="auto" 
-       height="auto"
-       alt="whisp template 2 preview" 
-       src="https://raw.githubusercontent.com/mihar-22/whisp/master/examples/template-2/preview.png">
-</p>
+<img width="auto" 
+   height="auto"
+   alt="whisp template 2 preview" 
+   src="https://raw.githubusercontent.com/mihar-22/whisp/master/examples/template-2/preview.png">
 
 ### Example 3
 
-See [source code](https://github.com/mihar-22/whisp/blob/master/examples/template-3/template-3.js)
+See [source code](https://github.com/mihar-22/whisp/blob/master/examples/template-3/template-3.js).
 
-<p align="center">
-  <img width="auto" 
-       height="auto"
-       alt="whisp template 3 preview" 
-       src="https://raw.githubusercontent.com/mihar-22/whisp/master/examples/template-3/preview.png">
-</p>
+<img width="auto" 
+   height="auto"
+   alt="whisp template 3 preview" 
+   src="https://raw.githubusercontent.com/mihar-22/whisp/master/examples/template-3/preview.png">
 
 ## LICENSE
 
