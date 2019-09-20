@@ -12,7 +12,7 @@
 Micro, powerful and customizable logger for the browser and node that provides log level mapping to the console.
 </p>
 
-- Lightweight. **440b minified and gzipped | 800b minified!**
+- Lightweight. **480b minified and gzipped | 850b minified!**
 - No functions wrapping console. **All stack traces are pure!**
 - No unnecessary bloat or fancy code. **Only the core functionality!**.
 - Use **runners** to asynchronously process logs as they come through.
