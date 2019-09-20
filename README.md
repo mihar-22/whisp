@@ -37,6 +37,7 @@ Micro, powerful and customizable logger for the browser and node that provides l
 - [Templates](#templates)
   - [Example 1](#example-1)
   - [Example 2](#example-2)
+  - [Example 3](#example-3)
 - [LICENSE](#license)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
