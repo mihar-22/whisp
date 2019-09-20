@@ -8,18 +8,21 @@ const colors = require('colors');
 
 // Not the best code but you get the idea :)
 function template(name, level, messages) {
-  switch (level) {
-    case 'debug':
-      return ' D '.bgWhite.black + ` <${name}> ` + messages
-    case 'info':
-      return ' I '.bgBlue.white + ` <${name}> ` + messages
-    case 'error':
-      return ' E '.bgRed.white + ` <${name}> ` + messages
-    case 'warn':
-      return ' W '.bgYellow.black + ` <${name}> ` + messages
-    case 'trace':
-      return ' T '.bgMagenta.black + ` <${name}> ` + messages
+  let prefix;
+
+  if (level === 'debug') {
+    prefix = ' D '.bgWhite.black
+  } else if (level === 'info') {
+    prefix = ' I '.bgBlue.white
+  } else if (level === 'error') {
+    prefix = ' E '.bgRed.white
+  } else if (level === 'warn') {
+    prefix = ' W '.bgYellow.black
+  } else if (level === 'trace') {
+    prefix = ' T '.bgMagenta.black
   }
+
+  return prefix + ` ${name} `.bold + messages
 }
 
 const whisp = new Whisp('<example-2>', 'debug', null, template);
