@@ -102,7 +102,7 @@ var whisp = new Whisp('my-app', 'debug', [writeToFile, pushToServer])
 // The `results` argument passed in is an array of all the results from each runner call.
 // This can also be setup through the Whisp `constructor`.
 whisp.onRunEnd = (results) => {
-  // Do something with results here.
+  // Do something with the results here.
 }
 ```
 
