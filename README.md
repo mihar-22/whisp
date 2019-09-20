@@ -93,7 +93,7 @@ const writeToFile = (name, level, ...args) => {
 }
 
 const pushToServer = (name, level, ...args) => {
-    // Push logs to the server with axios and return promise.
+    // Push logs to the server with `axios` and return promise.
 }
 
 var whisp = new Whisp('my-app', 'debug', [writeToFile, pushToServer])
@@ -101,16 +101,18 @@ var whisp = new Whisp('my-app', 'debug', [writeToFile, pushToServer])
 // You can use `onRunEnd` to be notified of when all the runners promises have resolved or of any rejections.
 // The `results` argument passed in is an array of all the results from each runner call.
 // This can also be setup through the Whisp `constructor`.
-whisp.onRunEnd = (results) 
+whisp.onRunEnd = (results) => {
+  // Do something with results here.
+}
 ```
 
 ## Templates
 
-Callback passed into the constructor: `(name, level, messages) => string`
+Callback: `(name, level, ...args) => string`
 
-Templates are simple callbacks that modify the style of the logs.
+Templates are simple callbacks that modify the style of the logs and return a string.
 
-**Important:** this doesn't affect runners, it's only for styling your output.
+**Important:** this doesn't affect the runners input, it's only for styling your output.
 
 ### Example 1
 
