@@ -1,4 +1,9 @@
-const Logger = require('../../dist/logger.cjs')
+/**
+ * Inspired by / Mostly copy pasted from
+ * https://github.com/MichaelCereda/pretty-cli/blob/master/src/templates/basic.js
+ */
+
+const Whisp = require('../../dist/whisp.cjs')
 const colors = require('colors');
 
 // Not the best code but you get the idea :)
@@ -17,9 +22,9 @@ function template(name, level, messages) {
   }
 }
 
-const logger = new Logger('<example-2>', 'debug', null, template);
+const whisp = new Whisp('<example-2>', 'debug', null, template);
 
-logger.debug('damn.\n');
-logger.info('hmm...\n');
-logger.warn('*!$#*$.\n');
-logger.error('........\n');
+whisp.debug('damn.\n');
+whisp.info('hmm...\n');
+whisp.warn('*!$#*$.\n');
+whisp.error('........\n');

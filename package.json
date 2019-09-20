@@ -1,22 +1,22 @@
 {
   "name": "whisp",
   "version": "0.0.0-semantically-released",
-  "description": "Micro (380b) powerful and customizable logger for the browser and node that provides log level mapping to the console.",
-  "main": "dist/logger.min.js.js",
-  "module": "dist/logger.cjs.js",
-  "jsnext:main": "dist/logger.esm.js",
-  "browser": "dist/logger.min.js",
-  "unpkg": "dist/logger.min.js",
+  "description": "Micro (360b) powerful and customizable logger for the browser and node that provides log level mapping to the console.",
+  "main": "dist/whisp.min.js.js",
+  "module": "dist/whisp.cjs.js",
+  "jsnext:main": "dist/whisp.esm.js",
+  "browser": "dist/whisp.min.js",
+  "unpkg": "dist/whisp.min.js",
   "types": "types/index.d.ts",
   "license": "MIT",
   "author": "Rahim Alwer <rahim_alwer@hotmail.com>",
-  "homepage": "https://github.com/mihar-22/logger#readme",
+  "homepage": "https://github.com/mihar-22/whisp#readme",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mihar-22/logger"
+    "url": "https://github.com/mihar-22/whisp"
   },
   "bugs": {
-    "url": "https://github.com/mihar-22/logger/issues"
+    "url": "https://github.com/mihar-22/whisp/issues"
   },
   "keywords": [
     "modern",
@@ -29,6 +29,7 @@
     "lightweight",
     "console",
     "webpack",
+    "whisp",
     "logger",
     "ssr",
     "log",
@@ -42,6 +43,7 @@
     "types/index.d.ts"
   ],
   "scripts": {
+    "toc": "npx doctoc README.md",
     "lint": "npx standard src/**/*.js",
     "build": "rimraf dist && rollup -c rollup.config.js -m --sourcemap",
     "test": "jest src/__tests__",
@@ -57,6 +59,7 @@
     "babel-jest": "^24.9.0",
     "codecov": "^3.5.0",
     "colors": "^1.3.3",
+    "doctoc": "^1.4.0",
     "jest": "^24.9.0",
     "rimraf": "^3.0.0",
     "rollup": "^1.21.4",

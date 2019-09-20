@@ -1,9 +1,9 @@
 export type Level = 'trace' | 'info' | 'debug' | 'warn' | 'error' | 'silent'
 
-interface ILogger {
+interface IWhisp {
   readonly name: string
   readonly level: string
-  setLevel(level: Level): void
+  is(level: Level): void
   log(...args: any): void
   warn(...args: any): void
   info(...args: any): void
@@ -12,14 +12,14 @@ interface ILogger {
   trace(...args: any): void
 }
 
-type LoggerConstructor = new(
+type WhispConstructor = new(
   name: string,
   level?: Level,
   runners?: ((name: string, level: Level, messages: any) => void)[],
   template?: (name: string, level: Level, messages: any[]) => string
-) => ILogger
+) => IWhisp
 
-declare const Logger: LoggerConstructor;
+declare const Whisp: WhispConstructor;
 
-export default Logger;
+export default Whisp;
 

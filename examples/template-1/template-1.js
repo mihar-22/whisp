@@ -1,4 +1,10 @@
-const Logger = require('../../dist/logger.cjs')
+/**
+ * Inspired by
+ * https://github.com/shellscape/webpack-log
+ */
+
+const Whisp = require('../../dist/whisp.cjs')
+
 
 const COLOR_BOLD = [1, 22];
 const COLOR_BLUE = [34, 39];
@@ -35,9 +41,9 @@ function template(name, level, messages) {
   ].join('')
 }
 
-const logger = new Logger('<example-1>', 'debug', null, template);
+const whisp = new Whisp('<example-1>', 'debug', null, template);
 
-logger.debug('damn.');
-logger.info('hmm...');
-logger.warn('*!$#*$.');
-logger.error('........');
+whisp.debug('damn.');
+whisp.info('hmm...');
+whisp.warn('*!$#*$.');
+whisp.error('........');

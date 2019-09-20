@@ -1,21 +1,21 @@
-import Logger from '.'
+import Whisp from '.'
 
 // Good
-const logger = new Logger('', 'trace');
-const loggerThree = new Logger('');
+const whisp = new Whisp('', 'trace');
+new Whisp('');
 
 // Good
-logger.setLevel('info');
-logger.setLevel('debug');
-logger.setLevel('error');
-logger.setLevel('warn');
-logger.setLevel('silent');
-logger.setLevel('trace');
+whisp.is('info');
+whisp.is('debug');
+whisp.is('error');
+whisp.is('warn');
+whisp.is('silent');
+whisp.is('trace');
 
 //Bad
 // @ts-ignore
-const loggerFour = new Logger();
+new Whisp();
 
 // Bad
 // @ts-ignore
-logger.setLevel('log');
+whisp.setLevel('log');

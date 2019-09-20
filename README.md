@@ -1,11 +1,18 @@
 <div align="center">
 <h1>Whisp</h1>
 
+> Inspired by [loglevel](https://github.com/pimterry/loglevel)
+
+[![Build Status][build-badge]][build] [![Code Coverage][coverage-badge]][coverage]
+[![version][version-badge]][package] [![downloads][downloads-badge]][package]
+[![MIT License][license-badge]][license]
+</div>
+
 <p>
 Micro, powerful and customizable logger for the browser and node that provides log level mapping to the console.
 </p>
 
-- Lightweight. **380b minified and gzipped | 620b minified!**
+- Lightweight. **360b minified and gzipped | 620b minified!**
 - No functions wrapping console. **All stack traces are pure!**
 - No unnecessary bloat or fancy code. **Only the core functionality!**.
 - Use **runners** to asynchronously process logs as they come through.
@@ -15,13 +22,24 @@ Micro, powerful and customizable logger for the browser and node that provides l
 - **SSR** friendly.
 - **Types** included.
 
-> Inspired by [loglevel](https://github.com/pimterry/loglevel)
-
-[![Build Status][build-badge]][build] [![Code Coverage][coverage-badge]][coverage]
-[![version][version-badge]][package] [![downloads][downloads-badge]][package]
-[![MIT License][license-badge]][license]
-</div>
 <hr />
+
+## Table of Contents
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+
+- [Install](#install)
+- [Overview](#overview)
+- [Runners](#runners)
+  - [Example](#example)
+- [Templates](#templates)
+  - [Example 1](#example-1)
+  - [Example 2](#example-2)
+- [LICENSE](#license)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 ## Install 
 
@@ -33,7 +51,7 @@ If you'd like to support older versions of IE or whatever, you'll need a polyfil
 
 All formats (umd, cjs and es) and minified versions are available in the dist folder inside the package.
 
-## Usage
+## Overview
 
 ```js
 import Whisp from 'whisp'
@@ -45,10 +63,10 @@ const whisp = new Whisp('my-application')
 // `log` is available as an alias to debug
 whisp.debug('message.')
 
-// A whisp will not produce output for any log level beneath the specified level.
+// Whisp will not produce output for any log level beneath the specified level.
 // The order is: trace, debug (default), info, warn, error, silent
 // For example, if the level was set to `warn` then only calls to `warn` and `error` will be displayed in the terminal.
-whisp.setLevel('info')
+whisp.is('info')
 ```
 
 ## Runners
@@ -57,7 +75,13 @@ Array of callbacks passed into the constructor: `(name, level, messages) => void
 
 Runners are simple asynchronous callbacks that you can use to do anything, pass your logs
 
-## Template
+### Example
+
+```
+Example here.
+```
+
+## Templates
 
 Callback passed into the constructor: `(name, level, messages) => string`
 
@@ -65,20 +89,25 @@ Templates are simple callbacks that modify the style of the logs.
 
 **Important:** this doesn't affect runners, it's only for styling your output.
 
-### Examples
-
-#### Example 1
+### Example 1
 
 <div align="center">
-![whisp preview](https://raw.githubusercontent.com/mihar-22/whisp/master/examples/template-1/preview.png)
+![whisp template 1 preview](https://raw.githubusercontent.com/mihar-22/whisp/master/examples/template-1/preview.png)
 > See [source code](https://github.com/mihar-22/whisp/blob/master/examples/template-1/template-1.js)
 </div>
 
-#### Example 2
+### Example 2
 
 <div align="center">
-![whisp preview](https://raw.githubusercontent.com/mihar-22/whisp/master/examples/template-2/preview.png)
+![whisp template 2 preview](https://raw.githubusercontent.com/mihar-22/whisp/master/examples/template-2/preview.png)
 > See [source code](https://github.com/mihar-22/whisp/blob/master/examples/template-2/template-2.js)
+</div>
+
+### Example 3
+
+<div align="center">
+![whisp template 3 preview](https://raw.githubusercontent.com/mihar-22/whisp/master/examples/template-3/preview.png)
+> See [source code](https://github.com/mihar-22/whisp/blob/master/examples/template-3/template-3.js)
 </div>
 
 ## LICENSE

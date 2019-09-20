@@ -24,9 +24,9 @@ const minPlugins = plugins.concat([
 const build = (format, isMin = false) => ({
   input: "./src/index.js",
   output: {
-    name: (format === "umd") ? "Logger" : null,
+    name: (format === "umd") ? "Whisp" : null,
     file: [
-      "./dist/logger",
+      "./dist/whisp",
       (format === "umd") ? null : `.${format}`,
       isMin ? ".min" : null,
       ".js",
