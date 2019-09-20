@@ -73,7 +73,7 @@ whisp.is('info')
 
 Array of callbacks passed into the constructor: `(name, level, messages) => void`
 
-Runners are simple asynchronous callbacks that you can use to do anything, pass your logs
+Runners are simple asynchronous callbacks that you can use to do anything, for example writing to a file or sending logs to a server.
 
 ### Example
 
@@ -91,24 +91,36 @@ Templates are simple callbacks that modify the style of the logs.
 
 ### Example 1
 
-<div align="center">
-![whisp template 1 preview](https://raw.githubusercontent.com/mihar-22/whisp/master/examples/template-1/preview.png)
+<p align="center">
+  <img width="auto" 
+       height="auto"
+       alt="whisp template 1 preview" 
+       src="https://raw.githubusercontent.com/mihar-22/whisp/master/examples/template-1/preview.png">
+       
 > See [source code](https://github.com/mihar-22/whisp/blob/master/examples/template-1/template-1.js)
-</div>
+</p>
 
 ### Example 2
 
-<div align="center">
-![whisp template 2 preview](https://raw.githubusercontent.com/mihar-22/whisp/master/examples/template-2/preview.png)
+<p align="center">
+  <img width="auto" 
+       height="auto"
+       alt="whisp template 2 preview" 
+       src="https://raw.githubusercontent.com/mihar-22/whisp/master/examples/template-2/preview.png">
+       
 > See [source code](https://github.com/mihar-22/whisp/blob/master/examples/template-2/template-2.js)
-</div>
+</p>
 
 ### Example 3
 
-<div align="center">
-![whisp template 3 preview](https://raw.githubusercontent.com/mihar-22/whisp/master/examples/template-3/preview.png)
+<p align="center">
+  <img width="auto" 
+       height="auto"
+       alt="whisp template 3 preview" 
+       src="https://raw.githubusercontent.com/mihar-22/whisp/master/examples/template-3/preview.png">
+       
 > See [source code](https://github.com/mihar-22/whisp/blob/master/examples/template-3/template-3.js)
-</div>
+</p>
 
 ## LICENSE
 
