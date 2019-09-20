@@ -1,0 +1,68 @@
+{
+  "name": "whisp",
+  "version": "0.0.0-semantically-released",
+  "description": "Micro (380b) powerful and customizable logger for the browser and node that provides log level mapping to the console.",
+  "main": "dist/logger.min.js.js",
+  "module": "dist/logger.cjs.js",
+  "jsnext:main": "dist/logger.esm.js",
+  "browser": "dist/logger.min.js",
+  "unpkg": "dist/logger.min.js",
+  "types": "types/index.d.ts",
+  "license": "MIT",
+  "author": "Rahim Alwer <rahim_alwer@hotmail.com>",
+  "homepage": "https://github.com/mihar-22/logger#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mihar-22/logger"
+  },
+  "bugs": {
+    "url": "https://github.com/mihar-22/logger/issues"
+  },
+  "keywords": [
+    "modern",
+    "reporter",
+    "template",
+    "customizable",
+    "log level",
+    "level logging",
+    "micro",
+    "lightweight",
+    "console",
+    "webpack",
+    "logger",
+    "ssr",
+    "log",
+    "logging",
+    "cli",
+    "browser",
+    "node"
+  ],
+  "files": [
+    "dist",
+    "types/index.d.ts"
+  ],
+  "scripts": {
+    "lint": "npx standard src/**/*.js",
+    "build": "rimraf dist && rollup -c rollup.config.js -m --sourcemap",
+    "test": "jest src/__tests__",
+    "test:watch": "yarn test --watch",
+    "test:update": "yarn test --updateSnapshot --coverage",
+    "setup": "yarn && yarn validate",
+    "validate": "yarn lint && yarn test && yarn build"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.6.0",
+    "@babel/preset-env": "^7.6.0",
+    "@types/jest": "^24.0.18",
+    "babel-jest": "^24.9.0",
+    "codecov": "^3.5.0",
+    "colors": "^1.3.3",
+    "jest": "^24.9.0",
+    "rimraf": "^3.0.0",
+    "rollup": "^1.21.4",
+    "rollup-plugin-terser": "^5.1.2",
+    "semantic-release": "^15.13.24",
+    "standard": "^14.3.1"
+  },
+  "dependencies": {}
+}
