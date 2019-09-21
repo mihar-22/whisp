@@ -1,40 +1,90 @@
 /**
- * Inspired by / Copy pasted mostly from
+ * Inspired by
  * https://github.com/MichaelCereda/pretty-cli/blob/master/src/templates/advanced.js
  */
 
-const colors = require('colors/safe');
+const Whisp = require('../../dist/whisp.cjs.min')
+const colors = require('colors/safe')
 
-function block(msg){
-  return ' '+msg+' ';
-}
-
-var types =  {
-  'info': {initial: 'I', blockBg:['bgBlue','black'], titleColor:'blue'},
-  'error': {initial: 'E', blockBg:['bgRed','white'], titleColor:'red'},
-  'log': {initial: 'L', blockBg:['bgWhite','black'], titleColor:'white'},
-  'warning': {initial: 'W', blockBg:['bgYellow','black'], titleColor:'yellow'},
-}
-
-var template = {};
-Object.keys(types).map(function(type){
-  var _specs = types[type];
-
-  template[type] = function(content){
-    var line = colors[_specs.blockBg[0]][_specs.blockBg[1]](block(_specs.initial))
-      +" " + content;
-    if(typeof content !== 'string'){
-      line = colors[_specs.blockBg[0]][_specs.blockBg[1]](block(_specs.initial))
-        +" " + content.message;
-      if(content.type=='title'){
-        line = colors[_specs.blockBg[0]][_specs.blockBg[1]](block(content.name))
-          + " " + colors[_specs.titleColor](content.message);
-      }
-      if(content.description){
-        line +='\n'+ content.description;
-      }
-    }
-    return line;
-  }
+const ThemeBuilder = (primary, background, foreground) => ({
+  primary,
+  bg: background,
+  fg: foreground
 })
-module.exports = template;
+
+const Theme = {
+  info: ThemeBuilder('blue', 'bgBlue', 'black'),
+  error: ThemeBuilder('red', 'bgRed', 'white'),
+  debug: ThemeBuilder('white', 'bgWhite', 'black'),
+  warn: ThemeBuilder('yellow', 'bgYellow', 'black'),
+  trace: ThemeBuilder('magenta', 'bgMagenta', 'white')
+}
+
+const _ = {
+  xPad: (text) => ` ${text} `
+}
+
+const Components = {
+  badge: (theme, title) => colors[theme.bg][theme.fg](
+    _.xPad(title)
+  ),
+  message: (theme, text) => colors[theme.primary](text)
+}
+
+const whisp = new Whisp('<example-3>')
+
+whisp
+  .template('heading', (level, { title, message }) => {
+    const theme = Theme[level]
+
+    return [
+      Components.badge(theme, title),
+      Components.message(theme, message),
+      '\n'
+    ].join(' ')
+  })
+  .template('stats', (level, { time, errors, warnings }) => {
+    const theme = Theme[level]
+
+    return [
+      Components.badge(theme, 'STATS'),
+      Components.message(
+        theme,
+    `time: ${time} | errors: ${errors} | warnings: ${warnings}`
+      ),
+      '\n'
+    ].join(' ')
+  })
+  .template('body', (level, { title, content }) => {
+    const theme = Theme[level]
+
+    return [
+      Components.badge(theme, level[0].toUpperCase()),
+      ' ',
+      title,
+      '\n\n',
+      ...content.map((line) => line + '\n')
+    ].join('')
+  })
+  .template('syntax', (level, { message, syntax, file, line }) => `SyntaxError: ${message} at `
+    + `${syntax} (${file}:${line})`)
+
+const getTimestamp = (new Date().toTimeString().split(' ')[0])
+
+whisp
+  .error('template-heading', { title: 'BUILD', message: 'complete with errors' })
+  .error('template-stats', { time: 30 + ' ms', errors: 12, warnings: 3 })
+  .error('template-heading', { title: 'MODULE', message: '../files/test.js' })
+  .error('template-body', {
+    title: 'Test',
+    content: [
+    `[${getTimestamp}] Failed to load external module @module/moduleA`,
+    `[${getTimestamp}] Failed to load external module @module/moduleB`
+    ]
+  })
+  .error('template-syntax', {
+    message: 'Unexpected reserved word',
+    syntax: 'exports.runInThisContext',
+    file: 'vm.js',
+    line: '53:16'
+  })

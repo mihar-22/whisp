@@ -1,10 +1,11 @@
 <div align="center">
 <h1>Whisp</h1>
 
-> Inspired by [loglevel](https://github.com/pimterry/loglevel)
+> Inspired by [loglevel](https://github.com/pimterry/loglevel), [pretty-cli](https://github.com/MichaelCereda/pretty-cli) and [webpack-log](https://github.com/shellscape/webpack-log)
 
-[![Build Status][build-badge]][build] [![Code Coverage][coverage-badge]][coverage]
-[![version][version-badge]][package] [![downloads][downloads-badge]][package]
+[![Build Status][build-badge]][build] 
+[![Code Coverage][coverage-badge]][coverage]
+[![version][version-badge]][package]
 [![MIT License][license-badge]][license]
 </div>
 
@@ -12,12 +13,12 @@
 Micro, powerful and customizable logger for the browser and node that provides log level mapping to the console.
 </p>
 
-- Lightweight. **480b minified and gzipped | 850b minified!**
+- Lightweight. **600b minified and gzipped!**
 - No functions wrapping console. **All stack traces are pure!**
-- No unnecessary bloat or fancy code. **Only the core functionality!**.
-- Use **runners** to asynchronously process logs as they come through.
+- No unnecessary bloat or fancy code. **Only the core functionality!**
+- Use **workers** to asynchronously process logs as they come through.
 - Import it or use it directly in the browser. **All file formats are available.**
-- Use **templates** to make your output look how you want.
+- Use **templates** to make your output look how you want it to.
 - **SSR** friendly.
 - **Types** included.
 
@@ -31,9 +32,8 @@ Micro, powerful and customizable logger for the browser and node that provides l
 
 - [Support](#support)
 - [Installation](#installation)
-- [Introduction](#introduction)
-- [Runners](#runners)
-  - [Example](#example)
+- [Quickstart](#quickstart)
+- [Workers](#workers)
 - [Templates](#templates)
   - [Example 1](#example-1)
   - [Example 2](#example-2)
@@ -44,11 +44,12 @@ Micro, powerful and customizable logger for the browser and node that provides l
 
 ## Support 
 
-***Supports all [Promises](https://caniuse.com/#feat=promises) compliant Browsers and [Node][node] 0.12+.***
+***Supports pretty much all browsers, IE9+ and [Node][node] 0.12+.***
 
-If you want to support IE9+ then you'll require a [Promise polyfill](https://www.npmjs.com/package/promise-polyfill).
+**Important:** if you want to use [Workers](#workers) in IE9+ then you will require a [Promise polyfill](https://www.npmjs.com/package/promise-polyfill).
 
-If you'd like to support older versions of IE (<= 8) or something else ancient, you'll need a polyfill for `Function.prototype.bind` and `Array.prototype.indexOf`
+If you'd like to support older versions of IE (<= 8) or something else ancient, you'll need to consider polyfills 
+for `Promise`, `Array.prototype.indexOf` and `Array.prototype.splice`.
 
 ## Installation
 
@@ -56,63 +57,140 @@ If you'd like to support older versions of IE (<= 8) or something else ancient, 
 
 All formats (umd, cjs and es) and minified versions are available in the dist folder inside the package.
 
-## Introduction 
+## Quickstart 
 
 ```js
 import Whisp from 'whisp'
 
-// name, level (optional - defaults to "debug"), runners (optional) template (optional), onRunEnd (optional)
-const whisp = new Whisp('my-app')
+// name, level (optional - defaults to "debug")
+const whisp = new Whisp('my-app', 'debug')
 
 // Log away (info, debug, trace, warn, error or trace)
 // `log` is available as an alias to debug
 whisp.debug('message.')
 
-// Whisp will not produce output for any log level beneath the specified level.
+// Get current level
+whisp.level()
+
+// Set level
+// Whisp will not produce output for any log level beneath the specified level
 // The order is: trace, debug (default), info, warn, error, silent
-// For example, if the level was set to `warn` then only calls to `warn` and `error` will be displayed in the terminal.
-whisp.is('info')
+// For example, if the level was set to `warn` then only calls to `warn` and `error` will be displayed in the terminal
+whisp.level('error')
+
+// Add workers to process logs
+whisp
+  .worker('file-worker', (level) => {
+    // Write logs to file
+  })
+  .worker('http-worker', (level) => {
+    // Write logs to server
+  })
+  .worker('slack-worker', (level) => {
+    // Send notification to Slack if level meets criteria
+  })
+
+// Run a callback when all workers return
+whisp.onWorkEnd = (results) => {
+  // Do something with the results
+}
+
+// Run a callback when any of the workers Promises reject
+whisp.onWorkError = (reason) => {
+  // Do something with the reason
+}
+
+// Add templates to customize output
+whisp
+  .template('default', (level) => ``)
+  .template('title', (level) => ``)
+  .template('body', (level) => ``)
+
+// Use your templates
+// Note: `default` templates are special in that they are called automatically if set.
+whisp
+  .debug('message') // Default template is used here if set.
+  .debug('template-title', 'message')
+  .debug('template-body', 'message')
+
+// Chain calls
+whisp
+  .template()
+  .worker()
+  .log()
+  .debug()
+  .warn()
+  .error()
 ```
 
-## Runners
+## Workers
 
-Callback: `(name, level, ...args) => Promise`
+Callback: `(level, ...args) => Promise`
 
-Runners are simple asynchronous callbacks that return a promise. They are passed as an array of callbacks into the constructor. 
+Workers are simple asynchronous callbacks that return a Promise.
 You can use them to do anything, for example writing to a file or sending logs to a server.
-
-### Example
 
 ```js
 import Whisp from 'whisp'
 
-// The `args` argument passed in is an Array of all the arguments you passed into the log call.
-// For example if you call `whisp.debug('message1', 'message2')` then args will be `['message1', 'message2']`
-const writeToFile = (name, level, ...args) => {
-    // Write to file with `fs` and return promise.
+const whisp = new Whisp('my-app')
+
+// Set
+// Workers receive all the arguments you passed into the log call
+// For example if you call `whisp.debug('message1', 'message2')` then the worker will receive ('debug', 'message1', 'message2')
+whisp.worker('name', (level, ...args) => {
+  // Do stuff here.
+})
+
+// Get
+whisp.worker('name')
+
+// Run this callback each time all workers are complete
+// The `results` argument passed in is an array of all the results from each of the workers promises
+whisp.onWorkEnd = (results) => {
+  // Do stuff here.
 }
 
-const pushToServer = (name, level, ...args) => {
-    // Push logs to the server with `axios` and return promise.
-}
-
-var whisp = new Whisp('my-app', 'debug', [writeToFile, pushToServer])
-
-// You can use `onRunEnd` to be notified of when all the runners promises have resolved or of any rejections.
-// The `results` argument passed in is an array of all the results from each runner call.
-// This can also be setup through the Whisp `constructor`.
-whisp.onRunEnd = (results) => {
-  // Do something with the results here.
+// Run this callback if any of the workers fail.
+whisp.onWorkError = (reason) => {
+  // Do stuff here.
 }
 ```
 
 ## Templates
 
-Callback: `(name, level, ...args) => string`
+Callback: `(level, ...args) => string`
 
 Templates are simple callbacks that modify the style of the logs and return a string.
+You can also set a `default` template to be called automatically when no other
+template is used.
 
-**Important:** this doesn't affect the runners input, it's only for styling your output.
+**Important:** this doesn't affect the workers input, it's only for styling your output.
+
+```js
+import Whisp from 'Whisp'
+
+const whisp = new Whisp('my-app')
+
+// Set
+whisp.template('name', (level, message1, message2) => {
+  // Style and return string
+})
+
+// Get
+whisp.template('name')
+
+// Use
+whisp.debug('template-name', 'message1', 'message2')
+
+// Set default
+whisp.template('default', (level, message1, message2) => {
+  // Style and return string
+})
+
+// Use default
+whisp.debug('message1', 'message2')
+```
 
 ### Example 1
 

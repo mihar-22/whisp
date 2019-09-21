@@ -1,27 +1,29 @@
 export type Level = 'trace' | 'info' | 'debug' | 'warn' | 'error' | 'silent'
-
-type OnRunEndCallback = (results: any[]) => void | undefined;
+export type OnWorkEnd = (results: any[]) => void;
+export type OnWorkError = (reason: any) => void;
+export type Worker = (level: Level, ...args: any[]) => Promise<any>
+export type Template = (level: Level, ...args: any[]) => string
 
 interface IWhisp {
+  [key: string]: any
   readonly name: string
-  readonly level: string
-  onRunEnd: OnRunEndCallback,
-  is(level: Level): void
-  log(...args: any[]): void
-  warn(...args: any[]): void
-  info(...args: any[]): void
-  error(...args: any[]): void
-  debug(...args: any[]): void
-  trace(...args: any[]): void
+  onWorkEnd: OnWorkEnd
+  onWorkError: OnWorkError
+  level(): Level
+  level(level: Level): IWhisp
+  worker(name: string): Worker
+  worker(name: string, worker: Worker): IWhisp
+  template(name: string): Template
+  template(name: string, template: Template): IWhisp
+  log(...args: any[]): IWhisp
+  warn(...args: any[]): IWhisp
+  info(...args: any[]): IWhisp
+  error(...args: any[]): IWhisp
+  debug(...args: any[]): IWhisp
+  trace(...args: any[]): IWhisp
 }
 
-type WhispConstructor = new(
-  name: string,
-  level?: Level,
-  runners?: ((name: string, level: Level, ...args: any[]) => Promise<any>)[],
-  template?: (name: string, level: Level, ...args: any[]) => string,
-  onRunEnd?: OnRunEndCallback
-) => IWhisp
+type WhispConstructor = new(name: string, level?: string) => IWhisp
 
 declare const Whisp: WhispConstructor;
 

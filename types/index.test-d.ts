@@ -1,21 +1,61 @@
 import Whisp from '.'
 
-// Good
-const whisp = new Whisp('', 'trace');
-new Whisp('');
+// Good: Constructor with name
+const whisp = new Whisp('my app');
 
-// Good
-whisp.is('info');
-whisp.is('debug');
-whisp.is('error');
-whisp.is('warn');
-whisp.is('silent');
-whisp.is('trace');
+// Good: Construct with name and level
+new Whisp('my-app', 'debug');
 
-//Bad
+// Bad: Construct with too many arguments
+// @ts-ignore
+new Whisp('my-app', 'debug', 'extra');
+
+// Bad: construct without any arguments
 // @ts-ignore
 new Whisp();
 
-// Bad
+// Bad: construct with an invalid level argument
+new Whisp('my-app', 'log');
+
+// Good: Get name
+const name: string = whisp.name;
+
+// Good: Call all logs and chain
+whisp.log('message')
+  .trace('message1')
+  .debug('message1', 'message2')
+  .info('message1', 'message2')
+  .warn('message1')
+  .error('message1', 'message2', 'message3');
+
+// Good: Get level
+whisp.level();
+
+// Good: Set Level
+whisp.level('debug');
+
+// Bad: Set invalid level
 // @ts-ignore
-whisp.setLevel('log');
+whisp.level('log');
+
+// Good: Set Worker
+whisp.worker('worker1', (level, message) => Promise.);
+
+// Good: Get Worker
+whisp.worker('worker1');
+
+// Bad: Get worker with invalid name
+// @ts-ignore
+whisp.worker(1);
+
+// Good: Set Template
+whisp.template('template1', (level) => '');
+
+// Good: Get Template
+whisp.template('template1');
+
+// Good: Set onWorkEnd
+whisp.onWorkEnd = (results) => {};
+
+// Good: Set onWorkError
+whisp.onWorkError = (reason) => {};

@@ -1,65 +1,84 @@
+function Whisp (name, level) {
+  this.name = name || ''
+  this.onWorkEnd = null
+  this.onWorkError = null
 
-function Whisp(name, level, runners, template, onRunEnd) {
-  var self = this;
-  var noop = function() {}
+  this._level = level || 'debug'
+  this._workers = {}
+  this._templates = {}
+  this._levels = ['trace', 'debug', 'info', 'warn', 'error', 'silent']
 
-  self.name = name || "";
-  self.level = level || "debug";
-  self.onRunEnd = onRunEnd;
-
-  self._runners = runners || [];
-  self._template = template || null;
-  self._levels = ['trace', 'debug', 'info', 'warn', 'error', 'silent'];
-
-  self.is = function(level) {
-    if (self._levels.indexOf(level) >= 0) {
-      self.level = level;
-      self._replaceMethods();
-    }
-  }
-
-  self._replaceMethods = function() {
-    for (var i = 0; i < self._levels.length; i++) {
-      var level = self._levels[i]
-      self[level] = self._isLevelValid(level) ?  self._make(level) : noop;
-    }
-
-    self.log = self.debug;
-  }
-
-  self._make = function(level) {
-    if (console === undefined || level === "silent") { return noop; }
-
-    var method = console[(level === "debug" ? "log" : level)]
-    var fn = method && method.bind(console);
-
-    return !fn ? noop : function() {
-      /**
-       * All this mumbo jumbo is to avoid using the spread operator so people can support
-       * IE without resorting to Babel. Only a ~30b difference using this instead of spread anyway.
-       */
-      var args = Array.prototype.slice.call(arguments);
-      args.unshift(level)
-      args.unshift(self.name)
-      self._template ? fn(self._template.apply(self, args)) : fn.apply(console, arguments);
-      self._run.apply(self, args)
-    };
-  }
-
-  self._run = function() {
-    var promises = [];
-    for (var i = 0; i < self._runners.length; i++) {
-      promises.push(self._runners[i].apply(self, arguments))
-    }
-    Promise.all(promises).then(this.onRunEnd)
-  }
-
-  self._isLevelValid = function(level) {
-    return self._levels.indexOf(level) >= self._levels.indexOf(self.level);
-  }
-
-  self._replaceMethods();
+  this._replaceMethods()
 }
 
-export default Whisp;
+Whisp.prototype.level = function (level) {
+  if (arguments.length === 0) { return this._level }
+  this._level = level
+  this._replaceMethods()
+  return this
+}
 
+Whisp.prototype.worker = function (name, worker) {
+  if (arguments.length === 1) { return this._workers[name] }
+  this._workers[name] = worker
+  return this
+}
+
+Whisp.prototype.template = function (name, template) {
+  var id = this._getTemplateId(name)
+  if (arguments.length === 1) { return this._templates[id] }
+  this._templates[id] = template
+  return this
+}
+
+Whisp.prototype._getTemplateId = function (name) {
+  return 'template-' + name
+}
+
+Whisp.prototype._isLevelValid = function (level) {
+  return this._getLevelValue(level) >= this._getLevelValue(this._level)
+}
+
+Whisp.prototype._getLevelValue = function (level) {
+  return this._levels.indexOf(level)
+}
+
+Whisp.prototype._replaceMethods = function () {
+  for (var i = 0; i < this._levels.length; i++) {
+    var level = this._levels[i]
+    this[level] = this._isLevelValid(level) ? this._make(level) : function () {}
+  }
+
+  this.log = this.debug
+}
+
+Whisp.prototype._make = function (level) {
+  if (console === undefined || level === 'silent') { return function () {} }
+
+  var method = console[(level === 'debug' ? 'log' : level)]
+
+  return !method ? function () {} : function () {
+    var requestedTemplate = arguments[0] && this._templates[arguments[0]]
+    var template = requestedTemplate || this.template('default')
+    var args = [].slice.call(arguments).slice(requestedTemplate ? 1 : 0)
+    args.unshift(level)
+    method.apply(console, template ? [template.apply(this, args)] : arguments)
+    this._runWorkers.apply(this, args)
+    return this
+  }
+}
+
+Whisp.prototype._runWorkers = function () {
+  if (typeof Promise !== undefined) {
+    var promises = []
+    var keys = Object.keys(this._workers)
+    for (var i = 0; i < keys.length; i++) {
+      promises.push(this._workers[keys[i]].apply(this, arguments))
+    }
+    Promise.all(promises)
+      .then(this.onWorkEnd)
+      .catch(this.onWorkError)
+  }
+}
+
+export default Whisp
