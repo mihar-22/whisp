@@ -90,12 +90,12 @@ whisp
     // Send notification to Slack if level meets criteria
   })
 
-// Run a callback when all workers return
+// Run a callback when all workers promises have resolved
 whisp.onWorkEnd = (results) => {
   // Do something with the results
 }
 
-// Run a callback when any of the workers Promises reject
+// Run a callback when any of the workers promises have rejected
 whisp.onWorkError = (reason) => {
   // Do something with the reason
 }
@@ -146,12 +146,12 @@ whisp.worker('name', (level, ...args) => {
 whisp.worker('name')
 
 // Run this callback each time all workers are complete
-// The `results` argument passed in is an array of all the results from each of the workers promises
+// The `results` argument passed in is an array of all the results from each of the workers resolved promises
 whisp.onWorkEnd = (results) => {
   // Do stuff here.
 }
 
-// Run this callback if any of the workers fail.
+// Run this callback if any of the workers promises reject
 whisp.onWorkError = (reason) => {
   // Do stuff here.
 }
