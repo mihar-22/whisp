@@ -139,7 +139,7 @@ const whisp = new Whisp('my-app')
 // Workers receive all the arguments you passed into the log call
 // For example if you call `whisp.debug('message1', 'message2')` then the worker will receive ('debug', 'message1', 'message2')
 whisp.worker('name', (level, ...args) => {
-  // Do stuff here.
+  // Do stuff here
 })
 
 // Get
@@ -148,12 +148,12 @@ whisp.worker('name')
 // Run this callback each time all workers are complete
 // The `results` argument passed in is an array of all the results from each of the workers resolved promises
 whisp.onWorkEnd = (results) => {
-  // Do stuff here.
+  // Do stuff here
 }
 
 // Run this callback if any of the workers promises reject
 whisp.onWorkError = (reason) => {
-  // Do stuff here.
+  // Do stuff here
 }
 ```
 
