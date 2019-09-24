@@ -1,61 +1,66 @@
-import Whisp from '.'
+import {expectType,expectError} from "tsd";
+import Whisp, {Level, IWhisp, Worker, Template} from '.'
 
-// Good: Constructor with name
-const whisp = new Whisp('my app');
+// Constructor with name
+const whisp = new Whisp('my app').level('trace');
 
-// Good: Construct with name and level
-new Whisp('my-app', 'debug');
+// Construct with name and level
+expectType<IWhisp>(new Whisp('my-app', 'debug'));
 
-// Bad: Construct with too many arguments
-// @ts-ignore
-new Whisp('my-app', 'debug', 'extra');
+// Construct with too many arguments
+expectError(new Whisp('my-app', 'debug', 'extra'));
 
-// Bad: construct without any arguments
-// @ts-ignore
-new Whisp();
+// Construct without any arguments
+expectError(new Whisp());
 
-// Bad: construct with an invalid level argument
-new Whisp('my-app', 'log');
+// Construct with an invalid level argument
+expectError(new Whisp('my-app', 'log'));
 
-// Good: Get name
-const name: string = whisp.name;
+// Get name
+expectType<string>(whisp.name);
 
-// Good: Call all logs and chain
-whisp.log('message')
-  .trace('message1')
-  .debug('message1', 'message2')
-  .info('message1', 'message2')
-  .warn('message1')
-  .error('message1', 'message2', 'message3');
+// Call all logging methods and chain
+expectType<IWhisp>(whisp.trace('message'));
+expectType<IWhisp>(whisp.log('message'));
+expectType<IWhisp>(whisp.debug('message'));
+expectType<IWhisp>(whisp.info('message'));
+expectType<IWhisp>(whisp.warn('message'));
+expectType<IWhisp>(whisp.error('message'));
 
-// Good: Get level
-whisp.level();
+// Get level
+expectType<Level>(whisp.level());
 
-// Good: Set Level
-whisp.level('debug');
+// Set Level
+expectType<IWhisp>(whisp.level('debug'));
 
-// Bad: Set invalid level
-// @ts-ignore
-whisp.level('log');
+// Set invalid level
+expectError(whisp.level('log'));
 
-// Good: Set Worker
-whisp.worker('worker1', (level, message) => Promise.);
+// Set Worker
+expectType<IWhisp>(whisp.worker('worker1', (level, message) => Promise.resolve(1)));
 
-// Good: Get Worker
-whisp.worker('worker1');
+// Get Worker
+expectType<Worker>(whisp.worker('worker1'));
 
-// Bad: Get worker with invalid name
-// @ts-ignore
-whisp.worker(1);
+// Get worker with invalid name
+expectError(whisp.worker(1));
 
-// Good: Set Template
-whisp.template('template1', (level) => '');
+// Set Template
+expectType<IWhisp>(whisp.template('template1', (level) => ''));
 
-// Good: Get Template
-whisp.template('template1');
+// Get Template
+expectType<Template>(whisp.template('template1'));
 
-// Good: Set onWorkEnd
+// Set onWorkEnd
 whisp.onWorkEnd = (results) => {};
+whisp.onWorkEnd = (results) => Promise.resolve();
 
-// Good: Set onWorkError
+// Set onWorkEnd to invalid value
+expectError(whisp.onWorkEnd = (results: any, values: any) => {});
+
+// Set onWorkError
 whisp.onWorkError = (reason) => {};
+whisp.onWorkError = (results) => Promise.resolve();
+
+// Set onWorkError to invalid value
+expectError(whisp.onWorkError = (reason: any, values: any) => {});

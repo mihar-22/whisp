@@ -36,7 +36,7 @@ const whisp = new Whisp('<example-2>')
 
 whisp.template('default', (level, message) => {
   const theme = Theme[level]
-  return Components.badge(theme, level) + _.bold(whisp.name) + message + '\n'
+  return Components.badge(theme, level) + _.bold(whisp.name) + ` ${message}\n`
 })
 
 whisp

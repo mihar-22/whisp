@@ -1,10 +1,10 @@
 export type Level = 'trace' | 'info' | 'debug' | 'warn' | 'error' | 'silent'
-export type OnWorkEnd = (results: any[]) => void;
-export type OnWorkError = (reason: any) => void;
+export type OnWorkEnd = (results: any[]) => void | Promise<void>;
+export type OnWorkError = (reason: any) => void | Promise<void>;
 export type Worker = (level: Level, ...args: any[]) => Promise<any>
 export type Template = (level: Level, ...args: any[]) => string
 
-interface IWhisp {
+export interface IWhisp {
   [key: string]: any
   readonly name: string
   onWorkEnd: OnWorkEnd
@@ -23,7 +23,7 @@ interface IWhisp {
   trace(...args: any[]): IWhisp
 }
 
-type WhispConstructor = new(name: string, level?: string) => IWhisp
+export type WhispConstructor = new(name: string, level?: Level) => IWhisp
 
 declare const Whisp: WhispConstructor;
 

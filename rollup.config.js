@@ -8,7 +8,7 @@ const minPlugins = plugins.concat([
       properties: {
         reserved: [
           'name', 'level', 'worker',
-          'template', 'onWorkEnd', 'onWorkFail', 'template-default'
+          'template', 'onWorkEnd', 'onWorkError', 'template-default'
         ]
       }
     },

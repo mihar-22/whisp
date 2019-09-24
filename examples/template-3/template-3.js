@@ -66,8 +66,8 @@ whisp
       ...content.map((line) => line + '\n')
     ].join('')
   })
-  .template('syntax', (level, { message, syntax, file, line }) => `SyntaxError: ${message} at `
-    + `${syntax} (${file}:${line})`)
+  .template('syntax', (level, { message, syntax, file, line }) => `SyntaxError: ${message} at ` +
+    `${syntax} (${file}:${line})`)
 
 const getTimestamp = (new Date().toTimeString().split(' ')[0])
 

@@ -1,7 +1,7 @@
 function Whisp (name, level) {
   this.name = name || ''
-  this.onWorkEnd = null
-  this.onWorkError = null
+  this.onWorkEnd = function () {}
+  this.onWorkError = function () {}
 
   this._level = level || 'debug'
   this._workers = {}
@@ -46,18 +46,20 @@ Whisp.prototype._getLevelValue = function (level) {
 Whisp.prototype._replaceMethods = function () {
   for (var i = 0; i < this._levels.length; i++) {
     var level = this._levels[i]
-    this[level] = this._isLevelValid(level) ? this._make(level) : function () {}
+    this[level] = this._isLevelValid(level) ? this._make(level) : function () { return this }
   }
 
   this.log = this.debug
 }
 
 Whisp.prototype._make = function (level) {
-  if (console === undefined || level === 'silent') { return function () {} }
+  var noop = function () { return this }
+
+  if (console === undefined || level === 'silent') { return noop }
 
   var method = console[(level === 'debug' ? 'log' : level)]
 
-  return !method ? function () {} : function () {
+  return !method ? noop : function () {
     var requestedTemplate = arguments[0] && this._templates[arguments[0]]
     var template = requestedTemplate || this.template('default')
     var args = [].slice.call(arguments).slice(requestedTemplate ? 1 : 0)
@@ -69,7 +71,7 @@ Whisp.prototype._make = function (level) {
 }
 
 Whisp.prototype._runWorkers = function () {
-  if (typeof Promise !== undefined) {
+  if (typeof Promise !== 'undefined') {
     var promises = []
     var keys = Object.keys(this._workers)
     for (var i = 0; i < keys.length; i++) {

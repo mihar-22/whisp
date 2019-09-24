@@ -1,7 +1,7 @@
 {
   "name": "whisp",
   "version": "0.0.0-semantically-released",
-  "description": "Micro (600b), powerful and customizable logger for the browser and node that provides log level mapping to the console.",
+  "description": "Micro (630b), powerful and customizable logger for the browser and node that provides log level mapping to the console.",
   "main": "dist/whisp.min.js",
   "module": "dist/whisp.cjs.min.js",
   "jsnext:main": "dist/whisp.esm.min.js",
@@ -48,11 +48,12 @@
   "scripts": {
     "info:size": "npx gzip-size dist/whisp.cjs.min.js",
     "toc": "npx doctoc README.md",
-    "lint": "npx standard",
+    "lint": "npx standard --fix",
     "build": "rimraf dist && rollup -c rollup.config.js -m --sourcemap && yarn info:size",
     "test": "jest src/__tests__",
     "test:watch": "yarn test --watch",
     "test:update": "yarn test --updateSnapshot --coverage",
+    "test:types": "npx tsd",
     "setup": "yarn && yarn validate",
     "validate": "yarn lint && yarn test && yarn build"
   },
@@ -70,7 +71,8 @@
     "rollup": "^1.21.4",
     "rollup-plugin-terser": "^5.1.2",
     "semantic-release": "^15.13.24",
-    "standard": "^14.3.1"
+    "standard": "^14.3.1",
+    "tsd": "^0.8.0"
   },
   "dependencies": {}
 }
