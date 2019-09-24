@@ -230,9 +230,9 @@ See [source code](https://github.com/mihar-22/whisp/blob/master/examples/templat
 [build-badge]: https://travis-ci.org/mihar-22/whisp.svg?branch=master
 [coverage-badge]: https://img.shields.io/codecov/c/github/mihar-22/whisp.svg?style=flat-square
 [coverage]: https://codecov.io/github/mihar-22/whisp
-[package]: https://www.npmjs.com/package/@mihar-22/whisp
-[version-badge]: https://img.shields.io/npm/v/@mihar-22/whisp
-[downloads-badge]: https://img.shields.io/npm/dw/@mihar-22/whisp
+[package]: https://www.npmjs.com/package/whisp
+[version-badge]: https://img.shields.io/npm/v/whisp
+[downloads-badge]: https://img.shields.io/npm/dw/whisp
 [license]: https://github.com/mihar-22/whisp/blob/master/LICENSE
 [license-badge]: https://img.shields.io/github/license/mihar-22/whisp?color=b
 <!-- prettier-ignore-end -->
