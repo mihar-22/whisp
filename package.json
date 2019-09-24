@@ -55,7 +55,7 @@
     "test:update": "yarn test --updateSnapshot --coverage",
     "test:types": "npx tsd",
     "setup": "yarn && yarn validate",
-    "validate": "yarn lint && yarn test && yarn build"
+    "validate": "yarn lint && yarn test:types && yarn test && yarn build"
   },
   "devDependencies": {
     "@babel/core": "^7.6.0",
