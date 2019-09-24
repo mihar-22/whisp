@@ -7,7 +7,9 @@ cache:
 notifications:
   email: false
 node_js:
-  - '6'
+  # - '0.12' Some scripts not working atm due to libraries not supporting this version
+  # - '4' Same issues as 0.12
+  # - '6' Not working atm due to Standard only supporting versions >= 8
   - '8'
   - '10'
   - '12'
