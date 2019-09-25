@@ -7,8 +7,6 @@ dist
 .eslintcache
 .size-snapshot.json
 .idea
-dist
-demo.js
 
 yarn-error.log
 package-lock.json
