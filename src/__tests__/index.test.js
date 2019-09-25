@@ -1,6 +1,6 @@
 /* eslint-env jest */
 
-const Whisp = require('../')
+const Whisp = require('..')
 
 describe('`Whisp`', () => {
   const NAME = '<test>'
