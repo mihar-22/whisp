@@ -13,7 +13,7 @@
 Micro, powerful and customizable logger for the browser and node that provides log level mapping to the console.
 </p>
 
-- Lightweight. **630b minified and gzipped!**
+- Lightweight. **511b minified and compressed with [Brotli](https://github.com/google/brotli)!**
 - No functions wrapping console. **All stack traces are pure!**
 - No unnecessary bloat or fancy code. **Only the core functionality!**
 - Use **workers** to asynchronously process logs as they come through.

@@ -1,12 +1,11 @@
 {
   "name": "whisp",
   "version": "0.0.0-semantically-released",
-  "description": "Micro (630b), powerful and customizable logger for the browser and node that provides log level mapping to the console.",
-  "main": "dist/whisp.min.js",
-  "module": "dist/whisp.cjs.min.js",
-  "jsnext:main": "dist/whisp.esm.min.js",
-  "browser": "dist/whisp.min.js",
-  "unpkg": "dist/whisp.min.js",
+  "description": "Micro (511b), powerful and customizable logger for the browser and node that provides log level mapping to the console.",
+  "main": "dist/whisp.js",
+  "module": "dist/whisp.mjs",
+  "browser": "dist/whisp.umd.js",
+  "unpkg": "dist/whisp.umd.js",
   "types": "types/index.d.ts",
   "license": "MIT",
   "author": "Rahim Alwer <rahim_alwer@hotmail.com>",
@@ -49,28 +48,27 @@
     "types/index.d.ts"
   ],
   "scripts": {
-    "info:size": "npx gzip-size dist/whisp.cjs.min.js",
-    "toc": "npx doctoc README.md",
-    "lint": "npx standard --fix",
-    "build": "rimraf dist && rollup -c rollup.config.js -m --sourcemap && yarn info:size",
+    "toc": "doctoc README.md",
+    "lint": "standard --fix --env jest",
+    "build": "microbundle src/index.js --name Whisp --compress",
     "test": "jest src/__tests__",
     "test:watch": "yarn test --watch",
     "test:update": "yarn test --updateSnapshot --coverage",
-    "test:types": "npx tsd",
+    "test:types": "tsd",
     "setup": "yarn && yarn validate",
     "validate": "yarn lint && yarn test:types && yarn test && yarn build"
   },
+  "dependencies": {},
   "devDependencies": {
     "@types/jest": "^24.0.18",
     "colors": "^1.3.3",
     "doctoc": "^1.4.0",
-    "gzip-size-cli": "^3.0.0",
     "jest": "^24.9.0",
-    "rimraf": "^3.0.0",
-    "rollup": "^1.21.4",
-    "rollup-plugin-terser": "^5.1.2",
+    "microbundle": "^0.11.0",
     "standard": "^14.3.1",
     "tsd": "^0.8.0"
   },
-  "dependencies": {}
+  "mangle": {
+    "regex": "^_"
+  }
 }

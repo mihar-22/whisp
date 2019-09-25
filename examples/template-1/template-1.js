@@ -3,7 +3,7 @@
  * https://github.com/shellscape/webpack-log
  */
 
-const Whisp = require('../../dist/whisp.cjs.min')
+const Whisp = require('../../dist/whisp.js')
 
 const ColorCode = {
   bold: [1, 22],

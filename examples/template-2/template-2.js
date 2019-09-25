@@ -3,7 +3,7 @@
  * https://github.com/MichaelCereda/pretty-cli/blob/master/src/templates/basic.js
  */
 
-const Whisp = require('../../dist/whisp.cjs.min')
+const Whisp = require('../../dist/whisp.js')
 const colors = require('colors')
 
 const ThemeBuilder = (background, foreground) => ({

@@ -1,5 +1,3 @@
-/* eslint-env jest */
-
 const Whisp = require('..')
 
 describe('`Whisp`', () => {
@@ -130,7 +128,7 @@ describe('`Whisp`', () => {
 
   describe('`templates`', () => {
     const TEMPLATE_NAME = 'template'
-    const TEMPLATE_ID = 'template-' + TEMPLATE_NAME
+    const TEMPLATE_ID = `template-${TEMPLATE_NAME}`
 
     const template = jest.fn()
 
@@ -230,7 +228,7 @@ describe('`Whisp`', () => {
       expect(httpWorker).toHaveBeenCalledTimes(0)
     })
 
-    test('onWorkEnd should be called with the results when the workers finish', done => {
+    test('onWorkEnd should be called with the results when the workers finish', (done) => {
       whisp.onWorkEnd = jest.fn()
       whisp.debug(MESSAGE)
       setImmediate(() => {
@@ -239,7 +237,7 @@ describe('`Whisp`', () => {
       })
     })
 
-    test('onWorkError should be called with any worker rejections', done => {
+    test('onWorkError should be called with any worker rejections', (done) => {
       const error = new Error('something bad happened')
       fileWorker.mockReturnValue(Promise.reject(error))
       whisp.onWorkError = jest.fn()
