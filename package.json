@@ -66,7 +66,7 @@
     "jest": "^24.9.0",
     "microbundle": "^0.11.0",
     "standard": "^14.3.1",
-    "tsd": "^0.8.0"
+    "tsd": "^0.9.0"
   },
   "mangle": {
     "regex": "^_"

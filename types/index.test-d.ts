@@ -1,11 +1,12 @@
 import {expectType,expectError} from "tsd";
-import Whisp, {Level, IWhisp, Worker, Template} from '.'
+import {Level, Template, Worker} from ".";
+import Whisp = require('.');
 
 // Constructor with name
 const whisp = new Whisp('my app').level('trace');
 
 // Construct with name and level
-expectType<IWhisp>(new Whisp('my-app', 'debug'));
+expectType<Whisp>(new Whisp('my-app', 'debug'));
 
 // Construct with too many arguments
 expectError(new Whisp('my-app', 'debug', 'extra'));
@@ -20,24 +21,24 @@ expectError(new Whisp('my-app', 'log'));
 expectType<string>(whisp.name);
 
 // Call all logging methods and chain
-expectType<IWhisp>(whisp.trace('message'));
-expectType<IWhisp>(whisp.log('message'));
-expectType<IWhisp>(whisp.debug('message'));
-expectType<IWhisp>(whisp.info('message'));
-expectType<IWhisp>(whisp.warn('message'));
-expectType<IWhisp>(whisp.error('message'));
+expectType<Whisp>(whisp.trace('message'));
+expectType<Whisp>(whisp.log('message'));
+expectType<Whisp>(whisp.debug('message'));
+expectType<Whisp>(whisp.info('message'));
+expectType<Whisp>(whisp.warn('message'));
+expectType<Whisp>(whisp.error('message'));
 
 // Get level
 expectType<Level>(whisp.level());
 
 // Set Level
-expectType<IWhisp>(whisp.level('debug'));
+expectType<Whisp>(whisp.level('debug'));
 
 // Set invalid level
 expectError(whisp.level('log'));
 
 // Set Worker
-expectType<IWhisp>(whisp.worker('worker1', (level, message) => Promise.resolve(1)));
+expectType<Whisp>(whisp.worker('worker1', (level, message) => Promise.resolve(1)));
 
 // Get Worker
 expectType<Worker>(whisp.worker('worker1'));
@@ -46,7 +47,7 @@ expectType<Worker>(whisp.worker('worker1'));
 expectError(whisp.worker(1));
 
 // Set Template
-expectType<IWhisp>(whisp.template('template1', (level) => ''));
+expectType<Whisp>(whisp.template('template1', (level) => ''));
 
 // Get Template
 expectType<Template>(whisp.template('template1'));
