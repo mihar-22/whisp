@@ -1,6 +1,6 @@
 import {expectType,expectError} from "tsd";
-import {Level, Template, Worker} from ".";
-import Whisp = require('.');
+
+import Whisp from '.'
 
 // Constructor with name
 const whisp = new Whisp('my app').level('trace');
@@ -29,7 +29,7 @@ expectType<Whisp>(whisp.warn('message'));
 expectType<Whisp>(whisp.error('message'));
 
 // Get level
-expectType<Level>(whisp.level());
+expectType<Whisp.Level>(whisp.level());
 
 // Set Level
 expectType<Whisp>(whisp.level('debug'));
@@ -41,7 +41,7 @@ expectError(whisp.level('log'));
 expectType<Whisp>(whisp.worker('worker1', (level, message) => Promise.resolve(1)));
 
 // Get Worker
-expectType<Worker>(whisp.worker('worker1'));
+expectType<Whisp.Worker>(whisp.worker('worker1'));
 
 // Get worker with invalid name
 expectError(whisp.worker(1));
@@ -50,7 +50,7 @@ expectError(whisp.worker(1));
 expectType<Whisp>(whisp.template('template1', (level) => ''));
 
 // Get Template
-expectType<Template>(whisp.template('template1'));
+expectType<Whisp.Template>(whisp.template('template1'));
 
 // Set onWorkEnd
 whisp.onWorkEnd = (results) => {};

@@ -83,4 +83,4 @@ Whisp.prototype._runWorkers = function () {
   }
 }
 
-module.exports = Whisp
+export default Whisp

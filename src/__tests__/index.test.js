@@ -1,4 +1,4 @@
-const Whisp = require('..')
+import Whisp from '..'
 
 describe('`Whisp`', () => {
   const NAME = '<test>'

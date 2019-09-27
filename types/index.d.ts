@@ -25,14 +25,14 @@ declare class Whisp {
 }
 
 declare namespace Whisp {
-  export type Level = 'trace' | 'info' | 'debug' | 'warn' | 'error' | 'silent'
-  export type OnWorkEnd = (results: any[]) => void | Promise<void>;
-  export type OnWorkError = (reason: any) => void | Promise<void>;
-  export type Worker = (level: Level, ...args: any[]) => Promise<any>
-  export type Template = (level: Level, ...args: any[]) => string
+  type Level = 'trace' | 'info' | 'debug' | 'warn' | 'error' | 'silent'
+  type OnWorkEnd = (results: any[]) => void | Promise<void>;
+  type OnWorkError = (reason: any) => void | Promise<void>;
+  type Worker = (level: Level, ...args: any[]) => Promise<any>
+  type Template = (level: Level, ...args: any[]) => string
 }
 
 export as namespace Whisp;
-export = Whisp;
+export default Whisp;
 
 
