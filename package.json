@@ -4,7 +4,6 @@
   "description": "Micro (511b), powerful and customizable logger for the browser and node that provides log level mapping to the console.",
   "main": "dist/whisp.js",
   "module": "dist/whisp.mjs",
-  "browser": "dist/whisp.umd.js",
   "unpkg": "dist/whisp.umd.js",
   "types": "types/index.d.ts",
   "license": "MIT",
