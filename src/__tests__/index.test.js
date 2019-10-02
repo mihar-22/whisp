@@ -1,6 +1,6 @@
 import Whisp from '..'
 
-describe('`Whisp`', () => {
+describe('Whisp', () => {
   const NAME = '<test>'
   const MESSAGE = 'message'
 
@@ -26,7 +26,7 @@ describe('`Whisp`', () => {
     whisp = new Whisp(NAME)
   })
 
-  describe('`constructor`', () => {
+  describe('constructor', () => {
     test('passing name through contructor should work', () => {
       expect(whisp.name).toBe(NAME)
     })
@@ -55,7 +55,7 @@ describe('`Whisp`', () => {
     })
   })
 
-  describe('`logging`', () => {
+  describe('logging', () => {
     test('by default logging level debug and above should only work', () => {
       log()
       expect(global.console.trace).toBeCalledTimes(0)
@@ -126,7 +126,7 @@ describe('`Whisp`', () => {
     })
   })
 
-  describe('`templates`', () => {
+  describe('templates', () => {
     const TEMPLATE_NAME = 'template'
     const TEMPLATE_ID = `template-${TEMPLATE_NAME}`
 
@@ -190,7 +190,7 @@ describe('`Whisp`', () => {
     })
   })
 
-  describe('`workers`', () => {
+  describe('workers', () => {
     const FILE_WORKER = 'file-worker'
     const HTTP_WORKER = 'http-worker'
 
