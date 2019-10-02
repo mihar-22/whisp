@@ -55,7 +55,11 @@ for `Promise`, `Array.prototype.indexOf` and `Array.prototype.splice`.
 
 `npm install whisp --save-dev` or `yarn add whisp -D`
 
-All formats (umd, cjs and es) and minified versions are available in the dist folder inside the package.
+You can also load it via the [unpkg](https://unpkg.com) CDN
+
+`https://unpkg.com/whisp` will download the latest UMD bundle.
+
+All formats (UMD, CJS and ESM) are available in the dist folder inside the package.
 
 ## Quickstart 
 
